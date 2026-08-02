@@ -160,7 +160,7 @@ async def predict_tumor(
             status_code=500,
             detail=f"Internal server error: {str(e)}"
         )
-
+    
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc):
@@ -189,8 +189,6 @@ async def general_exception_handler(request, exc):
             "boxes": []
         }
     )
-
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
