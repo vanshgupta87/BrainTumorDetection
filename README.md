@@ -1,6 +1,5 @@
 <div align="center">
 
-<img src="https://via.placeholder.com/120x120.png?text=🧠" width="90"/>
 
 # NeuroSight AI
 
@@ -20,9 +19,6 @@
 
 <br/>
 
-<div align="center">
-<img src="https://via.placeholder.com/850x420.png?text=NeuroSight+AI+%E2%80%94+Detect+Screen" width="80%"/>
-</div>
 
 <br/>
 
