@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 
 echo "🧠 Brain Tumor Detection System - Quick Start"
 echo "=============================================="

@@ -23,7 +23,7 @@ export default function DetectPage() {
   const handleImageSelect = (file: File) => {
     setSelectedFile(file);
     setError(null);
-    
+
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreviewUrl(reader.result as string);
@@ -39,7 +39,7 @@ export default function DetectPage() {
 
     try {
       const result = await predictTumor(selectedFile, modelVersion);
-      
+
       if (result.success) {
         localStorage.setItem('detectionResult', JSON.stringify(result));
         localStorage.setItem('detectionImage', previewUrl || '');
@@ -66,186 +66,235 @@ export default function DetectPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div className="min-h-screen bg-[#080B11] text-[#E7ECF3]">
+      <style>{`
+        @keyframes pulseDot {
+          0%, 100% { opacity: 1; }
+          50%      { opacity: 0.35; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .anim-pulse { animation: none !important; }
+        }
+      `}</style>
+
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-              <div className="w-10 h-10 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center shadow-md">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600">NeuroSight AI</h1>
-                <p className="text-xs font-medium text-indigo-600/80">Brain Tumor Detection</p>
-              </div>
-            </Link>
-            
-            <Link
-              href="/"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#080B11]/80 backdrop-blur-xl">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="relative w-9 h-9 rounded-lg border border-[#2DD4BF]/40 bg-[#0F1520] flex items-center justify-center">
+              <span
+                className="absolute inset-0 rounded-lg border border-[#2DD4BF]/20 anim-pulse"
+                style={{ animation: 'pulseDot 2.4s ease-in-out infinite' }}
+              />
+              <svg className="w-5 h-5 text-[#2DD4BF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
-            </Link>
-          </div>
+            </div>
+            <div>
+              <p className="text-[15px] font-semibold tracking-tight leading-none">NeuroSight</p>
+              <p className="text-[11px] text-[#7C8798] font-[family-name:var(--font-geist-mono)] tracking-wide mt-1">
+                TUMOR DETECTION SYSTEM
+              </p>
+            </div>
+          </Link>
+
+          <Link
+            href="/"
+            className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-[#9AA5B6] hover:text-white hover:border-white/20 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </Link>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-3xl mx-auto px-6 py-14">
         <div className="text-center mb-10">
-          <h2 className="text-4xl font-bold text-gray-900 mb-3">
-            Upload MRI Scan
-          </h2>
-          <p className="text-lg text-gray-600">
-            Upload a brain MRI image to detect and classify tumors
+          <p className="font-[family-name:var(--font-geist-mono)] text-[12px] text-[#2DD4BF] tracking-wide mb-3">
+            UPLOAD · ANALYZE · CLASSIFY
           </p>
+          <h2 className="text-4xl font-semibold tracking-tight mb-3">Upload MRI Scan</h2>
+          <p className="text-[#9AA5B6] text-lg">Upload a brain MRI image to detect and classify tumors</p>
         </div>
 
         {!selectedFile ? (
-          <Card>
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-2">
             <ImageUpload onImageSelect={handleImageSelect} disabled={isProcessing} />
-          </Card>
+          </div>
         ) : (
           <div className="space-y-6">
-            <Card>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-semibold text-gray-900">Selected Image</h3>
-                  <Button onClick={handleReset} variant="outline" disabled={isProcessing}>
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                    Upload Different Image
-                  </Button>
-                </div>
-
-                <div className="bg-gray-100 rounded-lg p-4">
-                  <div className="flex items-center gap-3 text-sm text-gray-700">
-                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <span className="font-medium">{selectedFile.name}</span>
-                    <span className="text-gray-500">({formatFileSize(selectedFile.size)})</span>
-                  </div>
-                </div>
-
-                {previewUrl && (
-                  <div className="mt-6">
-                    <ImagePreview imageUrl={previewUrl} />
-                  </div>
-                )}
+            <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Selected Image</h3>
+                <button
+                  onClick={handleReset}
+                  disabled={isProcessing}
+                  className="inline-flex items-center gap-2 text-sm font-medium px-3 py-2 rounded-lg border border-white/10 text-[#9AA5B6] hover:text-white hover:border-white/20 transition-colors disabled:opacity-40"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Upload different image
+                </button>
               </div>
-            </Card>
+
+              <div className="rounded-lg border border-white/[0.06] bg-black/30 px-4 py-3 mb-4">
+                <div className="flex items-center gap-3 text-sm text-[#9AA5B6] font-[family-name:var(--font-geist-mono)]">
+                  <svg className="w-4 h-4 text-[#2DD4BF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span className="text-[#E7ECF3]">{selectedFile.name}</span>
+                  <span className="text-[#5B6577]">({formatFileSize(selectedFile.size)})</span>
+                </div>
+              </div>
+
+              {previewUrl && (
+                <div className="rounded-lg overflow-hidden border border-white/[0.06]">
+                  <ImagePreview imageUrl={previewUrl} />
+                </div>
+              )}
+            </div>
 
             {error && (
-              <Card className="bg-red-50 border-2 border-red-200">
+              <div className="rounded-2xl border border-[#FB6B5B]/30 bg-[#FB6B5B]/[0.06] p-5">
                 <div className="flex items-start gap-3">
-                  <svg className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-5 h-5 text-[#FB6B5B] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                   </svg>
                   <div className="flex-1">
-                    <h4 className="text-lg font-semibold text-red-900 mb-1">Error</h4>
-                    <p className="text-red-700">{error}</p>
+                    <h4 className="font-semibold text-[#FB6B5B] mb-1">Error</h4>
+                    <p className="text-[#e0a8a1] text-sm">{error}</p>
                   </div>
                 </div>
-              </Card>
+              </div>
             )}
 
             {!isProcessing && (
               <div className="space-y-6">
-                <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                  <h4 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wider">Select AI Model</h4>
+                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
+                  <h4 className="font-[family-name:var(--font-geist-mono)] text-[11px] text-[#7C8798] tracking-wide mb-4">
+                    SELECT AI MODEL
+                  </h4>
                   <div className="grid grid-cols-2 gap-4">
                     <button
                       onClick={() => setModelVersion('nano')}
-                      className={`relative flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all duration-200 ${
-                        modelVersion === 'nano' 
-                          ? 'border-blue-500 bg-blue-50/50 shadow-md ring-1 ring-blue-500/20' 
-                          : 'border-gray-200 hover:border-blue-200 hover:bg-gray-50'
+                      className={`relative flex flex-col items-center justify-center p-5 rounded-xl border transition-all duration-200 ${
+                        modelVersion === 'nano'
+                          ? 'border-[#2DD4BF]/50 bg-[#2DD4BF]/[0.06] shadow-[0_0_30px_-12px_rgba(45,212,191,0.5)]'
+                          : 'border-white/[0.08] hover:border-white/20 hover:bg-white/[0.02]'
                       }`}
                     >
                       {modelVersion === 'nano' && (
-                        <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-blue-500" />
+                        <span
+                          className="absolute top-3 right-3 w-2 h-2 rounded-full bg-[#2DD4BF] anim-pulse"
+                          style={{ animation: 'pulseDot 1.8s ease-in-out infinite' }}
+                        />
                       )}
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${modelVersion === 'nano' ? 'bg-blue-100' : 'bg-gray-100'}`}>
-                        <svg className={`w-5 h-5 ${modelVersion === 'nano' ? 'text-blue-600' : 'text-gray-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${
+                          modelVersion === 'nano' ? 'bg-[#2DD4BF]/15' : 'bg-white/[0.05]'
+                        }`}
+                      >
+                        <svg
+                          className={`w-5 h-5 ${modelVersion === 'nano' ? 'text-[#2DD4BF]' : 'text-[#7C8798]'}`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                       </div>
-                      <span className={`font-semibold ${modelVersion === 'nano' ? 'text-blue-700' : 'text-gray-700'}`}>YOLOv8 Nano</span>
-                      <span className={`text-xs mt-1 ${modelVersion === 'nano' ? 'text-blue-600/80' : 'text-gray-500'}`}>Faster • Good Accuracy</span>
+                      <span className={`font-semibold ${modelVersion === 'nano' ? 'text-[#2DD4BF]' : 'text-[#E7ECF3]'}`}>
+                        YOLOv8 Nano
+                      </span>
+                      <span className="text-xs mt-1 text-[#7C8798] font-[family-name:var(--font-geist-mono)]">
+                        SPEED · ~18ms
+                      </span>
                     </button>
-                    
+
                     <button
                       onClick={() => setModelVersion('medium')}
-                      className={`relative flex flex-col items-center justify-center p-4 rounded-lg border-2 transition-all duration-200 ${
-                        modelVersion === 'medium' 
-                          ? 'border-indigo-500 bg-indigo-50/50 shadow-md ring-1 ring-indigo-500/20' 
-                          : 'border-gray-200 hover:border-indigo-200 hover:bg-gray-50'
+                      className={`relative flex flex-col items-center justify-center p-5 rounded-xl border transition-all duration-200 ${
+                        modelVersion === 'medium'
+                          ? 'border-[#FB6B5B]/50 bg-[#FB6B5B]/[0.06] shadow-[0_0_30px_-12px_rgba(251,107,91,0.5)]'
+                          : 'border-white/[0.08] hover:border-white/20 hover:bg-white/[0.02]'
                       }`}
                     >
                       {modelVersion === 'medium' && (
-                        <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-indigo-500" />
+                        <span
+                          className="absolute top-3 right-3 w-2 h-2 rounded-full bg-[#FB6B5B] anim-pulse"
+                          style={{ animation: 'pulseDot 1.8s ease-in-out infinite' }}
+                        />
                       )}
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${modelVersion === 'medium' ? 'bg-indigo-100' : 'bg-gray-100'}`}>
-                        <svg className={`w-5 h-5 ${modelVersion === 'medium' ? 'text-indigo-600' : 'text-gray-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${
+                          modelVersion === 'medium' ? 'bg-[#FB6B5B]/15' : 'bg-white/[0.05]'
+                        }`}
+                      >
+                        <svg
+                          className={`w-5 h-5 ${modelVersion === 'medium' ? 'text-[#FB6B5B]' : 'text-[#7C8798]'}`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </div>
-                      <span className={`font-semibold ${modelVersion === 'medium' ? 'text-indigo-700' : 'text-gray-700'}`}>YOLOv8 Medium</span>
-                      <span className={`text-xs mt-1 ${modelVersion === 'medium' ? 'text-indigo-600/80' : 'text-gray-500'}`}>Best Accuracy • Slower</span>
+                      <span className={`font-semibold ${modelVersion === 'medium' ? 'text-[#FB6B5B]' : 'text-[#E7ECF3]'}`}>
+                        YOLOv8 Medium
+                      </span>
+                      <span className="text-xs mt-1 text-[#7C8798] font-[family-name:var(--font-geist-mono)]">
+                        ACCURACY · ~47ms
+                      </span>
                     </button>
                   </div>
                 </div>
 
-                <div className="flex gap-4">
-                  <Button onClick={handleAnalyze} fullWidth>
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                    </svg>
-                    Analyze MRI Scan
-                  </Button>
-                </div>
+                <button
+                  onClick={handleAnalyze}
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-[#2DD4BF] text-[#04140F] font-semibold hover:bg-[#5EEAD4] transition-colors shadow-[0_0_40px_-10px_rgba(45,212,191,0.6)]"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                  </svg>
+                  Analyze MRI Scan
+                </button>
               </div>
             )}
           </div>
         )}
 
         {/* Instructions */}
-        <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-blue-900 mb-3 flex items-center gap-2">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+        <div className="mt-12 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6">
+          <h3 className="font-[family-name:var(--font-geist-mono)] text-[11px] text-[#2DD4BF] tracking-wide mb-4 flex items-center gap-2">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
             </svg>
-            Instructions
+            INSTRUCTIONS
           </h3>
-          <ul className="space-y-2 text-blue-800">
-            <li className="flex items-start gap-2">
-              <span className="font-bold">1.</span>
+          <ul className="space-y-3 text-[#9AA5B6] text-sm">
+            <li className="flex items-start gap-3">
+              <span className="font-[family-name:var(--font-geist-mono)] text-[#2DD4BF]">01</span>
               <span>Upload a clear brain MRI image in JPEG, PNG, or WebP format</span>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="font-bold">2.</span>
+            <li className="flex items-start gap-3">
+              <span className="font-[family-name:var(--font-geist-mono)] text-[#2DD4BF]">02</span>
               <span>Ensure the image is well-lit and the brain tissue is clearly visible</span>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="font-bold">3.</span>
-              <span>Click "Analyze MRI Scan" to detect tumors</span>
+            <li className="flex items-start gap-3">
+              <span className="font-[family-name:var(--font-geist-mono)] text-[#2DD4BF]">03</span>
+              <span>Click &quot;Analyze MRI Scan&quot; to detect tumors</span>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="font-bold">4.</span>
+            <li className="flex items-start gap-3">
+              <span className="font-[family-name:var(--font-geist-mono)] text-[#2DD4BF]">04</span>
               <span>View the detection results with bounding boxes and classifications</span>
             </li>
           </ul>
         </div>
       </main>
 
-      {/* Progress Modal */}
       <AnalysisProgress isProcessing={isProcessing} />
     </div>
   );

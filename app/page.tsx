@@ -2,164 +2,272 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-              </div>
-              <div>
-                <h1 className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 tracking-tight">NeuroSight AI</h1>
-                <p className="text-sm font-medium text-indigo-600/80">Brain Tumor Detection</p>
-              </div>
+    <div className="min-h-screen bg-[#080B11] text-[#E7ECF3]">
+      <style>{`
+        @keyframes scanline {
+          0%   { transform: translateY(0);    opacity: 0; }
+          8%   { opacity: 1; }
+          92%  { opacity: 1; }
+          100% { transform: translateY(300px); opacity: 0; }
+        }
+        @keyframes bboxIn {
+          0%, 15%   { opacity: 0; transform: scale(1.04); }
+          25%, 88%  { opacity: 1; transform: scale(1); }
+          100%      { opacity: 0; transform: scale(1.04); }
+        }
+        @keyframes pulseDot {
+          0%, 100% { opacity: 1; }
+          50%      { opacity: 0.35; }
+        }
+        @keyframes drift {
+          0%   { transform: translate(0, 0) rotate(0deg); }
+          50%  { transform: translate(6px, -8px) rotate(2deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .anim-scan, .anim-bbox, .anim-pulse, .anim-drift { animation: none !important; }
+        }
+      `}</style>
+
+      {/* ============ HEADER ============ */}
+      <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#080B11]/80 backdrop-blur-xl">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="relative w-9 h-9 rounded-lg border border-[#2DD4BF]/40 bg-[#0F1520] flex items-center justify-center">
+              <span className="absolute inset-0 rounded-lg border border-[#2DD4BF]/20 anim-pulse" style={{ animation: 'pulseDot 2.4s ease-in-out infinite' }} />
+              <svg className="w-5 h-5 text-[#2DD4BF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-[15px] font-semibold tracking-tight leading-none">NeuroSight</p>
+              <p className="text-[11px] text-[#7C8798] font-[family-name:var(--font-geist-mono)] tracking-wide mt-1">TUMOR DETECTION SYSTEM</p>
             </div>
           </div>
-        </div>
-      </header>
-
-      {/* Hero Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
-        <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-indigo-50 to-transparent -z-10" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl -z-10" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-400/20 rounded-full blur-3xl -z-10" />
-        
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100/50 border border-indigo-200 text-indigo-800 rounded-full text-sm font-semibold mb-8 shadow-sm backdrop-blur-sm">
-            <span className="w-2 h-2 bg-indigo-600 rounded-full animate-ping absolute"></span>
-            <span className="w-2 h-2 bg-indigo-600 rounded-full relative"></span>
-            Powered by Ultralytics YOLOv8
-          </div>
-          
-          <h2 className="text-6xl sm:text-7xl font-black text-gray-900 mb-6 leading-[1.1] tracking-tight">
-            Advanced MRI 
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-              Tumor Detection
-            </span>
-          </h2>
-          
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
-            State-of-the-art deep learning technology for accurate detection and classification 
-            of brain tumors from MRI scans using accelerated YOLOv8 architecture.
-          </p>
-
           <Link
-            href="/detect"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gray-900 hover:bg-indigo-600 text-white font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-xl hover:shadow-indigo-500/30 text-lg group"
+            href="/dashboard"
+            className="text-sm font-medium px-4 py-2 rounded-lg bg-white text-[#080B11] hover:bg-[#2DD4BF] transition-colors"
           >
-            <svg className="w-5 h-5 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
             Start Analysis
           </Link>
         </div>
+      </header>
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-20 relative z-10">
-          <div className="bg-white/70 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all hover:-translate-y-1">
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-50 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
-              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
+      <main className="max-w-6xl mx-auto px-6">
+        {/* ============ HERO ============ */}
+        <section className="grid lg:grid-cols-2 gap-14 items-center pt-16 pb-24">
+          <div>
+            <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2DD4BF] anim-pulse" style={{ animation: 'pulseDot 1.8s ease-in-out infinite' }} />
+              <span className="text-[12px] font-[family-name:var(--font-geist-mono)] text-[#9AA5B6] tracking-wide">YOLOv8 · REAL-TIME INFERENCE</span>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3 tracking-tight">Fast & Accurate</h3>
-            <p className="text-gray-600 font-medium leading-relaxed">
-              Real-time detection with high precision powered by YOLOv8 Nano & Medium models
+
+            <h1 className="text-5xl sm:text-6xl font-semibold tracking-tight leading-[1.05] mb-6">
+              See what the
+              <br />
+              scan is hiding.
+            </h1>
+
+            <p className="text-lg text-[#9AA5B6] leading-relaxed mb-9 max-w-md">
+              Upload an MRI slice and NeuroSight locates and classifies glioma,
+              meningioma, and pituitary tumors in a single pass — with the
+              confidence score to back it up.
+            </p>
+
+            <div className="flex items-center gap-4">
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#2DD4BF] text-[#04140F] font-semibold hover:bg-[#5EEAD4] transition-colors shadow-[0_0_40px_-10px_rgba(45,212,191,0.6)]"
+              >
+                Run a scan
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+              <a href="#classes" className="text-sm font-medium text-[#9AA5B6] hover:text-white transition-colors">
+                View detectable classes →
+              </a>
+            </div>
+          </div>
+
+          {/* Signature element: live-look detection viewport */}
+          <div className="relative mx-auto w-full max-w-sm">
+            <div className="relative aspect-[4/5] rounded-2xl border border-white/10 bg-[#0B0F17] overflow-hidden shadow-[0_0_80px_-20px_rgba(45,212,191,0.25)]">
+              {/* grid */}
+              <div
+                className="absolute inset-0 opacity-[0.12] pointer-events-none"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(#2DD4BF 1px, transparent 1px), linear-gradient(90deg, #2DD4BF 1px, transparent 1px)',
+                  backgroundSize: '22px 22px',
+                }}
+              />
+
+              {/* mock brain slice */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div
+                  className="relative w-52 h-52 anim-drift"
+                  style={{ animation: 'drift 9s ease-in-out infinite' }}
+                >
+                  <div className="absolute inset-0 rounded-[48%_52%_58%_42%/54%_46%_58%_42%] bg-gradient-to-br from-[#3A4152] via-[#232936] to-[#12161f]" />
+                  <div className="absolute inset-3 rounded-[45%_55%_50%_50%/50%_55%_45%_50%] bg-gradient-to-tr from-[#464e60] via-[#2b3140] to-[#181c26] opacity-90" />
+                  <div className="absolute inset-8 rounded-[55%_45%_45%_55%/45%_55%_50%_50%] bg-[#20242f] opacity-80" />
+                </div>
+              </div>
+
+              {/* bounding box */}
+              <div
+                className="absolute left-[38%] top-[34%] w-24 h-20 anim-bbox"
+                style={{ animation: 'bboxIn 4.5s ease-in-out infinite' }}
+              >
+                <div className="absolute inset-0 border-2 border-[#FB6B5B] rounded-[2px]" />
+                <span className="absolute -top-[22px] left-0 px-1.5 py-0.5 rounded-sm bg-[#FB6B5B] text-[#1A0705] text-[10px] font-[family-name:var(--font-geist-mono)] font-medium tracking-tight whitespace-nowrap">
+                  glioma · 0.942
+                </span>
+              </div>
+
+              {/* scanline */}
+              <div
+                className="absolute left-0 right-0 h-[2px] bg-[#2DD4BF] anim-scan"
+                style={{
+                  animation: 'scanline 3.2s linear infinite',
+                  boxShadow: '0 0 16px 3px rgba(45,212,191,0.7)',
+                }}
+              />
+
+              {/* corner brackets */}
+              {[
+                'top-3 left-3 border-t-2 border-l-2',
+                'top-3 right-3 border-t-2 border-r-2',
+                'bottom-3 left-3 border-b-2 border-l-2',
+                'bottom-3 right-3 border-b-2 border-r-2',
+              ].map((pos, i) => (
+                <div key={i} className={`absolute w-4 h-4 border-white/25 ${pos}`} />
+              ))}
+
+              {/* HUD readouts */}
+              <div className="absolute top-3 left-9 font-[family-name:var(--font-geist-mono)] text-[9px] text-[#7C8798] tracking-wide">
+                MODEL · yolov8m
+              </div>
+              <div className="absolute top-3 right-9 font-[family-name:var(--font-geist-mono)] text-[9px] text-[#7C8798] tracking-wide">
+                42 FPS
+              </div>
+              <div className="absolute bottom-3 left-9 font-[family-name:var(--font-geist-mono)] text-[9px] text-[#7C8798] tracking-wide">
+                FRAME 0842
+              </div>
+              <div className="absolute bottom-3 right-9 font-[family-name:var(--font-geist-mono)] text-[9px] text-[#34D399] tracking-wide flex items-center gap-1">
+                <span className="w-1 h-1 rounded-full bg-[#34D399]" />
+                LIVE
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ HUD STAT STRIP ============ */}
+        <section className="grid grid-cols-2 sm:grid-cols-4 border-y border-white/[0.07] py-8 mb-24">
+          {[
+            { label: 'CLASSES', value: '04' },
+            { label: 'MODEL VARIANTS', value: '02' },
+            { label: 'INFERENCE', value: '<50ms' },
+            { label: 'ARCHITECTURE', value: 'YOLOv8' },
+          ].map((stat) => (
+            <div key={stat.label} className="px-2">
+              <p className="font-[family-name:var(--font-geist-mono)] text-2xl font-semibold text-white">{stat.value}</p>
+              <p className="font-[family-name:var(--font-geist-mono)] text-[11px] text-[#7C8798] tracking-wide mt-1">{stat.label}</p>
+            </div>
+          ))}
+        </section>
+
+        {/* ============ DETECTION CLASSES ============ */}
+        <section id="classes" className="mb-28 scroll-mt-24">
+          <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
+            <div>
+              <p className="font-[family-name:var(--font-geist-mono)] text-[12px] text-[#2DD4BF] tracking-wide mb-2">OUTPUT LAYER</p>
+              <h2 className="text-3xl font-semibold tracking-tight">What it detects</h2>
+            </div>
+            <p className="text-sm text-[#7C8798] max-w-xs">
+              Every prediction ships with a class label and a confidence
+              score, the same way it appears in the live viewer above.
             </p>
           </div>
 
-          <div className="bg-white/70 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all hover:-translate-y-1">
-            <div className="w-16 h-16 bg-gradient-to-br from-emerald-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
-              <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3 tracking-tight">Multi-Class Detection</h3>
-            <p className="text-gray-600 font-medium leading-relaxed">
-              Identifies Glioma, Pituitary, Meningioma, and healthy brain tissue seamlessly
-            </p>
+          <div className="border border-white/[0.07] rounded-2xl divide-y divide-white/[0.07] overflow-hidden bg-white/[0.015]">
+            {[
+              { name: 'Glioma', desc: 'Tumors arising in the brain or spinal cord glial tissue', color: '#FB6B5B', conf: 94 },
+              { name: 'Meningioma', desc: 'Tumors forming in the meninges membrane layers', color: '#F5A623', conf: 89 },
+              { name: 'Pituitary', desc: 'Tumors located in the pituitary gland', color: '#818CF8', conf: 91 },
+              { name: 'No Tumor', desc: 'Healthy brain tissue, no abnormality located', color: '#34D399', conf: 99 },
+            ].map((c) => (
+              <div key={c.name} className="flex items-center gap-5 px-6 py-5 hover:bg-white/[0.02] transition-colors">
+                <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: c.color }} />
+                <div className="w-32 shrink-0">
+                  <p className="font-medium text-[15px]">{c.name}</p>
+                </div>
+                <p className="text-sm text-[#7C8798] flex-1 hidden sm:block">{c.desc}</p>
+                <div className="flex items-center gap-3 shrink-0">
+                  <div className="w-24 h-1.5 rounded-full bg-white/[0.07] overflow-hidden hidden xs:block">
+                    <div className="h-full rounded-full" style={{ width: `${c.conf}%`, backgroundColor: c.color }} />
+                  </div>
+                  <span className="font-[family-name:var(--font-geist-mono)] text-[13px] text-[#9AA5B6] w-10 text-right">{c.conf}%</span>
+                </div>
+              </div>
+            ))}
           </div>
+        </section>
 
-          <div className="bg-white/70 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all hover:-translate-y-1">
-            <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-50 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
-              <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3 tracking-tight">Switchable Architecture</h3>
-            <p className="text-gray-600 font-medium leading-relaxed">
-              Dynamically switch between Nano (speed) and Medium (accuracy) inference layers
-            </p>
-          </div>
-        </div>
+        {/* ============ ARCHITECTURE / MODEL SWITCH ============ */}
+        <section className="mb-28">
+          <p className="font-[family-name:var(--font-geist-mono)] text-[12px] text-[#2DD4BF] tracking-wide mb-2">SWITCHABLE ARCHITECTURE</p>
+          <h2 className="text-3xl font-semibold tracking-tight mb-8">Pick your trade-off</h2>
 
-        {/* Tumor Types */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Detectable Tumor Types</h3>
-          <div className="grid md:grid-cols-4 gap-6">
-            <div className="text-center p-4 border-2 border-blue-200 rounded-lg">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl font-bold text-blue-600">G</span>
+          <div className="grid sm:grid-cols-2 gap-5">
+            <div className="rounded-2xl border border-white/[0.07] bg-white/[0.015] p-7">
+              <div className="flex items-center justify-between mb-6">
+                <p className="font-semibold text-lg">Nano</p>
+                <span className="text-[11px] font-[family-name:var(--font-geist-mono)] px-2 py-1 rounded-md bg-[#2DD4BF]/10 text-[#2DD4BF] border border-[#2DD4BF]/20">SPEED</span>
               </div>
-              <h4 className="font-semibold text-gray-900 mb-1">Glioma</h4>
-              <p className="text-xs text-gray-500">Brain & spinal cord tumors</p>
+              <dl className="space-y-3 font-[family-name:var(--font-geist-mono)] text-sm">
+                <div className="flex justify-between"><dt className="text-[#7C8798]">Params</dt><dd>3.2M</dd></div>
+                <div className="flex justify-between"><dt className="text-[#7C8798]">Inference</dt><dd>~18ms</dd></div>
+                <div className="flex justify-between"><dt className="text-[#7C8798]">Best for</dt><dd>Live / batch triage</dd></div>
+              </dl>
             </div>
 
-            <div className="text-center p-4 border-2 border-green-200 rounded-lg">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl font-bold text-green-600">P</span>
+            <div className="rounded-2xl border border-[#FB6B5B]/25 bg-white/[0.015] p-7">
+              <div className="flex items-center justify-between mb-6">
+                <p className="font-semibold text-lg">Medium</p>
+                <span className="text-[11px] font-[family-name:var(--font-geist-mono)] px-2 py-1 rounded-md bg-[#FB6B5B]/10 text-[#FB6B5B] border border-[#FB6B5B]/20">ACCURACY</span>
               </div>
-              <h4 className="font-semibold text-gray-900 mb-1">Pituitary</h4>
-              <p className="text-xs text-gray-500">Pituitary gland tumors</p>
-            </div>
-
-            <div className="text-center p-4 border-2 border-red-200 rounded-lg">
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl font-bold text-red-600">M</span>
-              </div>
-              <h4 className="font-semibold text-gray-900 mb-1">Meningioma</h4>
-              <p className="text-xs text-gray-500">Meninges membrane tumors</p>
-            </div>
-
-            <div className="text-center p-4 border-2 border-gray-200 rounded-lg">
-              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl font-bold text-gray-600">✓</span>
-              </div>
-              <h4 className="font-semibold text-gray-900 mb-1">No Tumor</h4>
-              <p className="text-xs text-gray-500">Healthy brain tissue</p>
+              <dl className="space-y-3 font-[family-name:var(--font-geist-mono)] text-sm">
+                <div className="flex justify-between"><dt className="text-[#7C8798]">Params</dt><dd>25.9M</dd></div>
+                <div className="flex justify-between"><dt className="text-[#7C8798]">Inference</dt><dd>~47ms</dd></div>
+                <div className="flex justify-between"><dt className="text-[#7C8798]">Best for</dt><dd>Clinical-grade review</dd></div>
+              </dl>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="mt-20 text-center">
-          <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-8">Powered By Leading Tech</h3>
-          <div className="flex flex-wrap justify-center gap-6 items-center">
-            <div className="px-6 py-4 bg-white/50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all">
-              <span className="font-bold text-gray-800 tracking-tight">YOLOv8 <span className="text-xs text-gray-500 font-medium">by Ultralytics</span></span>
-            </div>
-            <div className="px-6 py-4 bg-white/50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all">
-              <span className="font-bold text-gray-800 tracking-tight">PyTorch</span>
-            </div>
-            <div className="px-6 py-4 bg-white/50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all">
-              <span className="font-bold text-gray-800 tracking-tight">FastAPI</span>
-            </div>
-            <div className="px-6 py-4 bg-white/50 border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-all">
-              <span className="font-bold text-gray-800 tracking-tight">Next.js</span>
-            </div>
+        {/* ============ TECH STACK ============ */}
+        <section className="mb-16">
+          <p className="font-[family-name:var(--font-geist-mono)] text-[11px] text-[#7C8798] tracking-widest text-center mb-6">POWERED BY</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {['YOLOv8 · Ultralytics', 'PyTorch', 'FastAPI', 'Next.js'].map((t) => (
+              <span
+                key={t}
+                className="px-4 py-2 rounded-lg border border-white/[0.08] bg-white/[0.02] text-sm text-[#9AA5B6] font-[family-name:var(--font-geist-mono)]"
+              >
+                {t}
+              </span>
+            ))}
           </div>
-        </div>
+        </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-200 bg-white mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="text-center text-gray-500 text-sm">
-            © 2026 Brain Tumor Detection System. Research & Educational Purpose.
+      {/* ============ FOOTER ============ */}
+      <footer className="border-t border-white/[0.06]">
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          <p className="text-center text-[#5B6577] text-sm">
+            © 2026 NeuroSight — research &amp; educational use only.
           </p>
         </div>
       </footer>

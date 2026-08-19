@@ -3,7 +3,8 @@ import { BoundingBox } from '@/types/api';
 export function drawBoundingBoxes(
   canvas: HTMLCanvasElement,
   image: HTMLImageElement,
-  boxes: BoundingBox[]
+  boxes: BoundingBox[],
+  canvasFilter: string = 'none'
 ): void {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
@@ -11,13 +12,16 @@ export function drawBoundingBoxes(
   canvas.width = image.naturalWidth;
   canvas.height = image.naturalHeight;
 
+  ctx.filter = canvasFilter;
   ctx.drawImage(image, 0, 0);
+  ctx.filter = 'none';
 
   const colorMap: Record<string, string> = {
     'glioma': '#3B82F6',
     'pituitary': '#10B981',
     'meningioma': '#EF4444',
     'no tumor': '#6B7280',
+    'tumor': '#FB6B5B', // Added support for custom single-class trained model
   };
 
   boxes.forEach((box) => {
@@ -40,7 +44,8 @@ export function drawBoundingBoxes(
       textHeight + 4
     );
 
-    ctx.fillStyle = '#FFFFFF';
+    // If color is white (#FFFFFF), draw text in black to avoid invisible white-on-white text
+    ctx.fillStyle = color.toUpperCase() === '#FFFFFF' ? '#000000' : '#FFFFFF';
     ctx.fillText(label, box.x1 + 5, box.y1 - 8);
   });
 }
@@ -80,6 +85,7 @@ export function getTumorColorClass(tumorType: string | null): string {
     'pituitary': 'text-green-500',
     'meningioma': 'text-red-500',
     'no tumor': 'text-gray-500',
+    'tumor': 'text-rose-500',
   };
   return colorMap[(tumorType || '').toLowerCase()] || 'text-gray-500';
 }
@@ -90,6 +96,7 @@ export function getTumorBgColorClass(tumorType: string | null): string {
     'pituitary': 'bg-green-100 border-green-300',
     'meningioma': 'bg-red-100 border-red-300',
     'no tumor': 'bg-gray-100 border-gray-300',
+    'tumor': 'bg-rose-100 border-rose-300',
   };
   return colorMap[(tumorType || '').toLowerCase()] || 'bg-gray-100 border-gray-300';
 }
@@ -100,6 +107,7 @@ export function getTumorDescription(tumorType: string | null): string {
     'pituitary': 'Tumors that form in the pituitary gland. Most pituitary tumors are noncancerous growths (adenomas).',
     'meningioma': 'A tumor that arises from the meninges — the membranes that surround the brain and spinal cord.',
     'no tumor': 'No tumor detected in the MRI scan. The brain tissue appears normal.',
+    'tumor': 'A detected brain tumor abnormality. Further clinical evaluation is recommended to classify its specific sub-type.',
   };
   return descriptions[(tumorType || '').toLowerCase()] || 'Unknown tumor type.';
 }

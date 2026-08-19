@@ -15,6 +15,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "NeuroSight AI | Brain Tumor Detection",
   description: "Advanced YOLOv8-based brain tumor detection system for analyzing MRI images",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "NeuroSight",
+  },
 };
 
 export default function RootLayout({
